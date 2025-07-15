@@ -1,0 +1,55 @@
+# Task 1 - Task 1: Collect emails for students in the current Intro to Programming course
+
+# Intro to Programming courses
+trimester = Trimester.find_by(year: '2025', term: 'Spring')
+intro_class = CodingClass.find_by(title: 'Intro to Programming')
+
+Course.column_names 
+course = Course.find_by(trimester_id: trimester.id, coding_class_id: intro_class.id)
+
+# all enrollments
+if trimester && intro_class && course
+  enrollments = Enrollment.where(course_id: course.id)
+  raise "No enrollments found for this course" unless enrollments.any?
+
+  # Two enrolled students' IDs and emails
+  student_emails = enrollments.map do |enrollment|
+    student = Student.find(enrollment.student_id)
+    "#{student.id}, #{student.email}"
+  end
+
+  puts "Students in Intro to Programming - Spring 2025:"
+  puts student_emails.any? ? student_emails.first(2) : "No matching enrollments found"
+else
+  puts "Required data not found (trimester, class, or course)"
+end
+
+# Task 2: Email all mentors who have not assigned a final grade
+
+# reusing trimester and intro_class from task 1 (in the same Rails console session)
+raise "Trimester not defined" unless trimester
+raise "Intro class not defined" unless intro_class
+
+courses = Course.where(trimester: trimester, coding_class: intro_class)
+raise "No courses found for this trimester and coding class" unless courses.any?
+
+if trimester && intro_class && courses.any?
+  #  enrollments without grades
+  enrollments_wo_grades = Enrollment.where(course: courses, final_grade: nil)
+  raise "No enrollments found without final grades" unless enrollments_wo_grades.any?
+
+  # mentor assignments for these enrollments
+  mentor_assignments = MentorEnrollmentAssignment.where(enrollment: enrollments_wo_grades)
+  mentor_ids = mentor_assignments.pluck(:mentor_id).uniq
+
+  # mentor details and emails
+  mentor_contacts = mentor_ids.map do |mentor_id|
+    mentor = Mentor.find_by(id: mentor_id)
+    mentor ? "#{mentor.id}, #{mentor.email}" : "Mentor not found for ID: #{mentor_id}"
+  end
+
+  puts "Mentors who haven't submitted final grades:"
+  puts mentor_contacts.any? ? mentor_contacts.first(2) : "No matching mentors found"
+else
+  puts "Required data not found (trimester, class, or course)."
+end
