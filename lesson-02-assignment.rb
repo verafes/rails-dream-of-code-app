@@ -112,3 +112,23 @@ if mentor
 else
   puts "No available mentor with ≤ 2 enrollments"
 end
+
+# Question 3
+# I thinking of a simple web application designed for customers to browse travel packages and make bookings. 
+# Admins (travel agents) can manage travel packages, update details, and track bookings through a simple dashboard. 
+
+# The app includes user authentication, a basic booking system, and search/filter options for destinations and prices. 
+# It focuses on core features to validate the concept quickly with a clean, responsive design.
+
+# Question 4 
+# User
+# Attributes: name, email, password, role (customer/admin)
+# Associations: has_many :bookings
+
+# Trip
+# Attributes: title, destination, description, price, start_date, end_date, last_booking_time, minimum_person, image
+# Associations: has_many :bookings
+
+# Booking
+# Attributes: user_id, package_id, status (e.g., pending, confirmed)
+# Associations: belongs_to :user and belongs_to :package
