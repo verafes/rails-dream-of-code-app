@@ -123,12 +123,14 @@ end
 # Question 4 
 # User
 # Attributes: name, email, password, role (customer/admin)
-# Associations: has_many :bookings
+# Associations: has_many :booked_trip and belongs_to :role (traveler or travel_agent)
 
 # Trip
 # Attributes: title, destination, description, price, start_date, end_date, last_booking_time, minimum_person, image
-# Associations: has_many :bookings
+# Associations: has_many :booked_trip and belongs_to :user
 
-# Booking
-# Attributes: user_id, package_id, status (e.g., pending, confirmed)
-# Associations: belongs_to :user and belongs_to :package
+# BookedTrip
+# Attributes: user_id, trip_id, status (e.g., pending, confirmed)
+# Associations: 
+# belongs_to :trip 
+# belongs_to :traveler, foreign_key: :user_id
