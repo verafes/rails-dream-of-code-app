@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_29_000814) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_30_154154) do
   create_table "coding_classes", force: :cascade do |t|
     t.string "title"
     t.text "description"
@@ -36,6 +36,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_29_000814) do
     t.datetime "updated_at", null: false
     t.index ["course_id"], name: "index_enrollments_on_course_id"
     t.index ["student_id"], name: "index_enrollments_on_student_id"
+  end
+
+  create_table "lesson_topics", force: :cascade do |t|
+    t.integer "lesson_id", null: false
+    t.integer "topic_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["lesson_id"], name: "index_lesson_topics_on_lesson_id"
+    t.index ["topic_id"], name: "index_lesson_topics_on_topic_id"
   end
 
   create_table "lessons", force: :cascade do |t|
@@ -89,6 +98,12 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_29_000814) do
     t.index ["mentor_id"], name: "index_submissions_on_mentor_id"
   end
 
+  create_table "topics", force: :cascade do |t|
+    t.string "title"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "trimesters", force: :cascade do |t|
     t.string "year"
     t.string "term"
@@ -103,6 +118,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_29_000814) do
   add_foreign_key "courses", "trimesters"
   add_foreign_key "enrollments", "courses"
   add_foreign_key "enrollments", "students"
+  add_foreign_key "lesson_topics", "lessons"
+  add_foreign_key "lesson_topics", "topics"
   add_foreign_key "lessons", "courses"
   add_foreign_key "mentor_enrollment_assignments", "enrollments"
   add_foreign_key "mentor_enrollment_assignments", "mentors"
