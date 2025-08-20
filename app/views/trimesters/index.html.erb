@@ -1,0 +1,13 @@
+<p style="color: green"><%= notice %></p>
+
+<% content_for :title, "Trimesters" %>
+
+<h1>Trimesters</h1>
+
+<ul>
+  <% @trimesters.each do |trimester| %>
+    <li>
+      <%= link_to "#{trimester.term} #{trimester.year}", trimester_path(trimester) %>
+    </li>
+  <% end %>
+</ul>
