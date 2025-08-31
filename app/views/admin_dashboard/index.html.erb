@@ -1,1 +1,8 @@
 <h1>Dashboard</h1>
+
+<h2><%= "#{@current_trimester.term} - #{@current_trimester.year}" %></h2>
+<ul>
+ <% @current_trimester.courses.each do |course| %>
+  <li><%= link_to course.coding_class.title, course_path(course) %></li>
+ <% end %>
+</ul>
