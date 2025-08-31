@@ -6,3 +6,9 @@
   <li><%= link_to course.coding_class.title, course_path(course) %></li>
  <% end %>
 </ul>
+<h2>Upcoming: <%= "#{@upcoming_trimester.term} - #{@upcoming_trimester.year}" %></h2>
+<ul>
+ <% @upcoming_trimester.courses.each do |course| %>
+  <li><%= link_to course.coding_class.title, course_path(course) %></li>
+ <% end %>
+</ul>
