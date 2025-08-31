@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  get "/courses/:id", to: "courses#show"
+  get "/students/sorted_students", to: "students#sorted_students"
   resources :students
   resources :mentors
   resources :enrollments
