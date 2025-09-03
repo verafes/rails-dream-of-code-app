@@ -1,0 +1,11 @@
+<h1><%= @course.title %> – Enrolled Students </h1>
+
+<% if @enrollments.any? %>
+  <ul>
+    <% @enrollments.each do |enrollment| %>
+      <li><%= enrollment.student.full_name %></li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>No students enrolled in this course.</p>
+<% end %>

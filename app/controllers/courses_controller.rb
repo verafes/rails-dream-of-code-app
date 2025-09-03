@@ -46,6 +46,13 @@ class CoursesController < ApplicationController
     end
   end
 
+  def enrolled_students
+    @course = Course.find(params[:id])
+    # @students = @course.enrollments.includes(:student).map(&:student)
+    # @students = @course.enrollments.includes(:student).map(&:student).order(:last_name, :first_name)
+    @enrollments = @course.enrollments.includes(:student).order('students.last_name, students.first_name')
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_course
