@@ -2,7 +2,6 @@
 require 'rails_helper'
 
 RSpec.describe Enrollment, type: :model do
-  # Data setup for all tests in this file
   let(:trimester) do
     Trimester.create!(
       year: '2025',
@@ -28,7 +27,6 @@ RSpec.describe Enrollment, type: :model do
   let(:coding_class) { CodingClass.create!(title: 'Test Class') }
 
   describe '#is_past_application_deadline' do
-
     context 'when enrollment is created before the course application deadline' do
       it 'returns false' do
         enrollment = Enrollment.create!(
