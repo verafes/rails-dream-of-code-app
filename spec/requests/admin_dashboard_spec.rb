@@ -3,16 +3,16 @@ require 'rails_helper'
 RSpec.describe 'Dashboard', type: :request do
   before do
     @current_trimester = Trimester.create!(
-      term: 'Summer',
+      term: 'Fall',
       year: Date.today.year.to_s,
       start_date: Date.today - 1.day,
       end_date: Date.today + 3.months,
       application_deadline: Date.today - 16.days
     )
     @upcoming_trimester = Trimester.create!(
-      term: 'Fall',
+      term: 'Winter',
       year: Date.today.year.to_s,
-      start_date:  @current_trimester.end_date - 1.day,
+      start_date:  @current_trimester.end_date + 1.day,
       end_date: @current_trimester.end_date + 3.months,
       application_deadline:  @current_trimester.end_date
     )
@@ -47,7 +47,7 @@ RSpec.describe 'Dashboard', type: :request do
 
     it 'displays the upcoming trimester' do
       get "/dashboard"
-      expect(response.body).to include("Fall - #{Date.today.year}")
+      expect(response.body).to include("Winter - #{Date.today.year}")
     end
 
     it 'displays links to the courses in the upcoming trimester' do
