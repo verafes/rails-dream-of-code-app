@@ -19,7 +19,15 @@ RSpec.describe "Courses", type: :request do
                     trimester: trimester)
     }
 
-    it "shows the course name and enrolled student" do
+    it "shows the course name and link to enrolled students page" do
+      get course_path(course)
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include("Test Class")
+      expect(response.body).to include("View enrolled students")
+    end
+    
+    it "displays the enrolled students on the enrolled_students page" do
       student1 = Student.create!(
         first_name: "AJ",
         last_name: "Adams",
