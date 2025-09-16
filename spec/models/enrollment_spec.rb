@@ -12,9 +12,9 @@ RSpec.describe Enrollment, type: :model do
     )
   end
 
-  let(:course) do
-    Course.create!(coding_class: coding_class, trimester: trimester)
-  end
+  let(:coding_class) { CodingClass.create!(title: 'Test Class') }
+
+  let(:course) { Course.create!(coding_class: coding_class, trimester: trimester) }
 
   let(:student) do
     Student.create!(
@@ -24,26 +24,22 @@ RSpec.describe Enrollment, type: :model do
     )
   end
 
-  let(:coding_class) { CodingClass.create!(title: 'Test Class') }
+  def create_enrollment_at(time)
+    Enrollment.create!(course: course, student: student, created_at: time)
+  end
 
   describe '#is_past_application_deadline' do
     context 'when enrollment is created before the course application deadline' do
       it 'returns false' do
-        enrollment = Enrollment.create!(
-          course: course,
-          student: student,
-          created_at: trimester.application_deadline - 1.day
-        )
+        enrollment = create_enrollment_at(trimester.application_deadline - 1.day)
         expect(enrollment.is_past_application_deadline?).to eq(false)
       end
     end
 
     context 'when enrollment is created on the course application deadline' do
       it 'returns false' do
-        enrollment = Enrollment.create!(
-          course: course,
-          student: student,
-          created_at: trimester.application_deadline
+        enrollment = create_enrollment_at(
+          trimester.application_deadline
         )
         expect(enrollment.is_past_application_deadline?).to eq(false)
       end
@@ -51,10 +47,8 @@ RSpec.describe Enrollment, type: :model do
 
     context 'when enrollment is created after the course application deadline' do
       it 'returns true' do
-        enrollment = Enrollment.create!(
-          course: course,
-          student: student,
-          created_at: trimester.application_deadline + 1.day
+        enrollment = create_enrollment_at(
+          trimester.application_deadline + 1.day
         )
         expect(enrollment.is_past_application_deadline?).to eq(true)
       end
@@ -66,11 +60,7 @@ RSpec.describe Enrollment, type: :model do
       end
 
       it 'returns false' do
-        enrollment = Enrollment.create!(
-          course: course, 
-          student: student, 
-          created_at: Time.now
-        )
+        enrollment = create_enrollment_at(Time.current)
         expect(enrollment.is_past_application_deadline?).to eq(false)
       end
     end
