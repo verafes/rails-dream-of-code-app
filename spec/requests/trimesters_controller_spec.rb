@@ -17,6 +17,7 @@ RSpec.describe "Trimesters", type: :request do
 
       it 'returns a page containing names of all trimesters' do
         get '/trimesters'
+        expect(response).to have_http_status(:ok) 
         expect(response.body).to include('Term 1 2025')
         expect(response.body).to include('Term 2 2025')
       end
@@ -36,8 +37,18 @@ RSpec.describe "Trimesters", type: :request do
 
     it "displays the trimester term and year on the show page" do
       get "/trimesters/#{trimester.id}"
+      expect(response).to have_http_status(:ok)
       expect(response.body).to include("Spring")
       expect(response.body).to include("2026")
+    end
+
+    context 'when there are no trimesters' do
+      it 'shows empty state message' do
+        get '/trimesters'
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to include("Trimesters")
+        expect(response.body).not_to match(/<li>/)
+      end
     end
   end
 end

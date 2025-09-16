@@ -22,6 +22,7 @@ RSpec.describe "Mentors", type: :request do
   describe "GET /mentors" do
     it "loads the index page with all mentors" do
       get '/mentors'
+      expect(response).to have_http_status(:ok)
       expect(response.body).to include("Alice")
       expect(response.body).to include("John")
     end
@@ -30,6 +31,7 @@ RSpec.describe "Mentors", type: :request do
   describe "GET /mentors/:id" do
     it "loads the show page for mentor1" do
       get "/mentors/#{mentor1.id}"
+      expect(response).to have_http_status(:ok) 
       expect(response.body).to include("Alice")
       expect(response.body).to include("Wilson")
       expect(response.body).to include("alice@example.com")
@@ -37,6 +39,7 @@ RSpec.describe "Mentors", type: :request do
 
     it "loads the show page for mentor2" do
       get "/mentors/#{mentor2.id}"
+      expect(response).to have_http_status(:ok) 
       expect(response.body).to include("John")
       expect(response.body).to include("Smith")
       expect(response.body).to include("john@example.com")
