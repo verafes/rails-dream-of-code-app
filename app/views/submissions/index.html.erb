@@ -1,3 +1,7 @@
+<p style="color: green"><%= notice %></p>
+
+<% content_for :title, "Submissions for course" %>
+
 <h1>Submissions for <%= @course.title %></h1>
 
 <table>
@@ -16,6 +20,10 @@
         <td><%= submission.lesson.title %></td>
         <td><%= submission.pull_request_url %></td>
         <td><%= submission.created_at.to_date %></td>
+        <td>
+          <%= link_to "Show", course_submission_path(@course, submission) %> |
+          <%= link_to "Edit", edit_course_submission_path(@course, submission) %>
+        </td>
       </tr>
     <% end %>
   </tbody>

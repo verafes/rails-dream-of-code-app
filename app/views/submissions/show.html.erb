@@ -1,0 +1,28 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Submission Details</h1>
+
+<div id="<%= dom_id @submission %>">
+  <p>
+    <strong>Student:</strong>
+    <%= @submission.enrollment.student.full_name %>
+  </p>
+
+  <p>
+    <strong>Lesson:</strong>
+    <%= @submission.lesson.title %>
+  </p>
+
+  <p>
+    <strong>URL:</strong>
+    <%= @submission.pull_request_url.presence || "N/A" %>
+  </p>
+</div>
+
+<br>
+
+<div>
+  <%= link_to "Edit this submission", edit_course_submission_path(@course, @submission) %> |
+  <%= link_to "Back to submissions", course_submissions_path(@course) %>
+
+</div>

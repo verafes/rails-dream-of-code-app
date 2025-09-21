@@ -4,7 +4,7 @@ class SubmissionsController < ApplicationController
 
   # GET /courses/:course_id/submissions
   def index
-    @submissions = @course.submissions.includes(:enrollment, :lesson)
+    @submissions = @course.submissions.includes(:enrollment, :lesson, :mentor)
   end
 
   def show
@@ -13,15 +13,15 @@ class SubmissionsController < ApplicationController
 
   # GET /submissions/new
   def new
-    @course = Course.find(params[:course_id])
     @submission = Submission.new
     @enrollments = @course.enrollments.includes(:student)
     @lessons = @course.lessons
   end
 
   def create
-    @course = Course.find(params[:course_id])
     @submission = Submission.new(submission_params)
+    mentor_assignment = MentorEnrollmentAssignment.find_by(enrollment: @submission.enrollment)
+    @submission.mentor = mentor_assignment&.mentor
 
     if @submission.save
       redirect_to course_path(@course), notice: 'Submission was successfully created.'
@@ -34,10 +34,20 @@ class SubmissionsController < ApplicationController
 
   # GET /submissions/1/edit
   def edit
+    @enrollments = @course.enrollments.includes(:student)
+    @lessons = @course.lessons
   end
 
   # PATCH/PUT /submissions/1 or /submissions/1.json
   def update
+     @enrollments = @course.enrollments.includes(:student)
+    @lessons = @course.lessons
+
+    if @submission.update(submission_params)
+      redirect_to course_submission_path(@course, @submission), notice: "Submission was successfully updated."
+    else
+      render :edit
+    end
   end
 
   private
