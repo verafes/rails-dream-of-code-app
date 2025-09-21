@@ -12,13 +12,19 @@
   <% end %>
 
   <div>
-    <%= form.label :course_id, style: "display: block" %>
-    <%= form.text_field :course_id %>
+    <%= form.label :course_id, {}, { class: 'form-text' } %>
+    <%= form.select :course_id,
+          options_from_collection_for_select(@courses, :id, :title, enrollment.course_id),
+          { prompt: "Select a Course",
+          { class: 'form-control' } %>
   </div>
 
   <div>
-    <%= form.label :student_id, style: "display: block" %>
-    <%= form.text_field :student_id %>
+    <%= form.label :student_id, style: {}, { class: 'form-text' } %>
+    <%= form.select :student_id,
+          options_from_collection_for_select(@students, :id, :name, enrollment.student_id),
+          { prompt: "Select a Student" },
+          { class: 'form-control' } %>
   </div>
 
   <div>

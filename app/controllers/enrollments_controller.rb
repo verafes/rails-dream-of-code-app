@@ -64,8 +64,13 @@ class EnrollmentsController < ApplicationController
       @enrollment = Enrollment.find(params.expect(:id))
     end
 
+    def set_dropdowns
+      @courses = Course.all
+      @students = Student.all
+    end
+
     # Only allow a list of trusted parameters through.
     def enrollment_params
-      params.expect(enrollment: [ :course_id, :student_id, :final_grade ])
+      params.require(:enrollment).permit( :course_id, :student_id, :final_grade )
     end
 end
