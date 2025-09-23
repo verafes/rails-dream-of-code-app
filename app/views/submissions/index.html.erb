@@ -21,8 +21,10 @@
         <td><%= submission.pull_request_url %></td>
         <td><%= submission.created_at.to_date %></td>
         <td>
-          <%= link_to "Show", course_submission_path(@course, submission) %> |
-          <%= link_to "Edit", edit_course_submission_path(@course, submission) %>
+          <%= link_to "Show", course_submission_path(@course, submission) %> 
+          <% if session[:role] == "mentor" %>
+            | <%= link_to "Edit", edit_course_submission_path(@course, @submission) %>
+          <% end %>
         </td>
       </tr>
     <% end %>

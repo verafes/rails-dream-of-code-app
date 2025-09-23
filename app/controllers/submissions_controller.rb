@@ -2,6 +2,14 @@ class SubmissionsController < ApplicationController
   before_action :set_course
   before_action :set_submission, only: [:edit, :update, :show]
 
+  before_action only: [:new, :create] do
+    require_role(["student"])
+  end
+
+  before_action only: [:edit, :update] do
+    require_role(["mentor"])
+  end
+
   # GET /courses/:course_id/submissions
   def index
     @submissions = @course.submissions.includes(:enrollment, :lesson, :mentor)

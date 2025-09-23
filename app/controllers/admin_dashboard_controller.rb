@@ -1,4 +1,7 @@
 class AdminDashboardController < ApplicationController
+  # before_action :require_admin
+  before_action -> { require_role(['admin']) }
+
   def index
     @current_trimester = Trimester.where(
         "start_date <= ?", Date.today).where("end_date >= ?", Date.today

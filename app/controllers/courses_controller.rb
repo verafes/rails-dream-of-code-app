@@ -2,6 +2,10 @@ class CoursesController < ApplicationController
   before_action :set_course, only: %i[show edit update destroy]
   before_action :set_dropdowns, only: %i[new edit create update]
 
+  before_action only: [:new, :create, :edit, :update, :destroy] do
+    require_role(["admin"])
+  end
+  
   # GET /courses or /courses.json
   def index
     @courses = Course.all
