@@ -1,6 +1,6 @@
 class TrimestersController < ApplicationController
   before_action :set_trimester, only: [:show, :edit, :update]
-  before_action only: [:new, :create, :edit, :update, :destroy] do
+  before_action only: [:index, :new, :create, :edit, :update, :destroy] do
     require_role(["admin"])
   end
 
@@ -44,6 +44,12 @@ class TrimestersController < ApplicationController
     else
       render :edit, status: :unprocessable_entity
     end
+  end
+  
+  def destroy
+    @trimester = Trimester.find(params[:id])
+    @trimester.destroy
+    redirect_to trimesters_path, notice: "Trimester was successfully deleted."
   end
 
   private

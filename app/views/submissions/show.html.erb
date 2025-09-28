@@ -24,7 +24,7 @@
 <div>
   <% if session[:role] == "mentor" %>
     <%= link_to "Edit this submission", edit_course_submission_path(@course, @submission) %> |
-  <% end %>!
+  <% end %>
   <%= link_to "Back to submissions", course_submissions_path(@course) %>
 
 </div>

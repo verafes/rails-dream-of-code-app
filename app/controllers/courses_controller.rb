@@ -6,13 +6,27 @@ class CoursesController < ApplicationController
     require_role(["admin"])
   end
   
+  # before_action :require_view_permission, only: [:index, :show]
+
+
   # GET /courses or /courses.json
   def index
-    @courses = Course.all
+    case session[:role]
+    when "admin", "mentor"
+      @courses = Course.all
+    when "student"
+      # Only courses the current student is enrolled in
+      @courses = Course.joins(:enrollments).where(enrollments: { student_id: session[:user_id] })
+    else
+      @courses = []
+    end
   end
 
   # GET /courses/1 or /courses/1.json
   def show
+    if session[:role] == "mentor"
+      @students = @course.enrollments.includes(:student).map(&:student)
+    end
   end
 
   # GET /courses/new

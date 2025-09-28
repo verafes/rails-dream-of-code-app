@@ -29,12 +29,10 @@
         <div class="d-flex align-items-end">
           <%= image_tag 'doc.png', alt: 'Dream of Code', height: '100' %>
           <ul class="navbar-nav">
-            <% if session[:user_id] %>
+            <% if session[:user_id] && display_user_info %>
+              <% name, path = display_user_info %>
               <li class='nav-item'>
-                <% user = User.find_by(id: session[:user_id]) %>
-                <% if user %>
-                  <span class="nav-link">Welcome, <%= user.username %>!</span>
-                <% end %>
+                <%= link_to name, path, class: "nav-link" %>
               </li>
             <% end %>
           </ul>

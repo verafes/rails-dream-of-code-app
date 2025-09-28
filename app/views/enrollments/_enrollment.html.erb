@@ -1,12 +1,12 @@
 <div id="<%= dom_id enrollment %>">
   <p>
     <strong>Course:</strong>
-    <%= enrollment.course_id %>
+    <%= enrollment.course.coding_class.title %> (Course ID: <%= enrollment.course_id %>)
   </p>
 
   <p>
     <strong>Student:</strong>
-    <%= enrollment.student_id %>
+    <%= enrollment.student.full_name %> (Student ID: <%= enrollment.student_id %>)
   </p>
 
   <p>
