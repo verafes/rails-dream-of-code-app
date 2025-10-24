@@ -24,9 +24,36 @@
   </head>
 
   <body>
-    <nav class="navbar navbar-expand-lg header">
-      <%= image_tag 'doc.png', alt: 'Dream of Code', height: '100' %>
-    </nav>
+    <div class="header">
+      <nav class="navbar navbar-expand-lg d-flex justify-content-between align-items-end">
+        <div class="d-flex align-items-end">
+          <%= image_tag 'doc.png', alt: 'Dream of Code', height: '100' %>
+          <ul class="navbar-nav">
+            <% if session[:user_id] && display_user_info %>
+              <% name, path = display_user_info %>
+              <li class='nav-item'>
+                <%= link_to name, path, class: "nav-link" %>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+        <div class="login-logout">
+          <% if session[:user_id] %>
+            <%= button_to 'Logout', logout_path, method: :delete, class: 'logout-link nav-link', data: { confirm: 'Are you sure you want to log out?' } %>
+          <% else %>
+            <%= link_to 'Login', login_path, class: 'logout-link nav-link' %>
+          <% end %>
+        </div>
+      </nav>
+    </div>
+    <div class="container mt-3">
+      <% flash.each do |key, message| %>
+        <div class="alert <%= key == 'alert' ? 'alert-danger' : 'alert-success' %> alert-dismissible fade show" role="alert">
+          <%= message %>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      <% end %>
+    </div>
     <div class='container main-container'>
       <%= yield %>
     </div>

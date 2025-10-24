@@ -2,13 +2,31 @@ class CoursesController < ApplicationController
   before_action :set_course, only: %i[show edit update destroy]
   before_action :set_dropdowns, only: %i[new edit create update]
 
+  before_action only: [:new, :create, :edit, :update, :destroy] do
+    require_role(["admin"])
+  end
+  
+  # before_action :require_view_permission, only: [:index, :show]
+
+
   # GET /courses or /courses.json
   def index
-    @courses = Course.all
+    case session[:role]
+    when "admin", "mentor"
+      @courses = Course.all
+    when "student"
+      # Only courses the current student is enrolled in
+      @courses = Course.joins(:enrollments).where(enrollments: { student_id: session[:user_id] })
+    else
+      @courses = []
+    end
   end
 
   # GET /courses/1 or /courses/1.json
   def show
+    if session[:role] == "mentor"
+      @students = @course.enrollments.includes(:student).map(&:student)
+    end
   end
 
   # GET /courses/new

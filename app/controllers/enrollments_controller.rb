@@ -2,6 +2,10 @@ class EnrollmentsController < ApplicationController
   before_action :set_enrollment, only: %i[ show edit update destroy ]
   before_action :set_dropdowns, only: %i[ new edit create update ]
 
+  before_action only: %i[index show new create edit update destroy] do
+    require_role(["admin"])
+  end
+  
   # GET /enrollments or /enrollments.json
   def index
     @enrollments = Enrollment.all
@@ -61,7 +65,7 @@ class EnrollmentsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_enrollment
-      @enrollment = Enrollment.find(params.expect(:id))
+      @enrollment = Enrollment.find(params[:id])
     end
 
     def set_dropdowns
