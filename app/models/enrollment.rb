@@ -6,5 +6,9 @@ class Enrollment < ApplicationRecord
 
   def student_name
     student.full_name
+
+  def is_past_application_deadline?
+    return false unless course&.trimester&.application_deadline
+    created_at > course.trimester.application_deadline
   end
 end

@@ -7,4 +7,12 @@ class Course < ApplicationRecord
   has_many :mentors, through: :mentor_enrollment_assignments
 
   delegate :title, to: :coding_class
+
+  def student_name_list
+    enrollments.includes(:student).map { |e| "#{e.student.first_name} #{e.student.last_name}" }
+  end
+
+  def student_email_list
+    enrollments.includes(:student).map { |e| e.student.email }
+  end
 end
