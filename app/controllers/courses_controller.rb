@@ -6,9 +6,6 @@ class CoursesController < ApplicationController
     require_role(["admin"])
   end
   
-  # before_action :require_view_permission, only: [:index, :show]
-
-
   # GET /courses or /courses.json
   def index
     case session[:role]
