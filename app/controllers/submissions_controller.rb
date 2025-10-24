@@ -1,34 +1,64 @@
 class SubmissionsController < ApplicationController
+  before_action :set_course
+  before_action :set_submission, only: [:edit, :update, :show]
+
+  # GET /courses/:course_id/submissions
+  def index
+    @submissions = @course.submissions.includes(:enrollment, :lesson, :mentor)
+  end
+
+  def show
+    # @submission is already set
+  end
+
   # GET /submissions/new
   def new
-    @course = Course.find(params[:course_id])
     @submission = Submission.new
-    @enrollments # TODO: What set of enrollments should be listed in the dropdown?
-    @lessons # TODO: What set of lessons should be listed in the dropdown?
+    @enrollments = @course.enrollments.includes(:student)
+    @lessons = @course.lessons
   end
 
   def create
-    @course = Course.find(params[:course_id])
     @submission = Submission.new(submission_params)
+    mentor_assignment = MentorEnrollmentAssignment.find_by(enrollment: @submission.enrollment)
+    @submission.mentor = mentor_assignment&.mentor
 
     if @submission.save
       redirect_to course_path(@course), notice: 'Submission was successfully created.'
     else
-      @enrollments # TODO: Set this up just as in the new action
-      @lessons # TODO: Set this up just as in the new action
+      @enrollments = @course.enrollments.includes(:student)
+      @lessons = @course.lessons
       render :new
     end
   end
 
   # GET /submissions/1/edit
   def edit
+    @enrollments = @course.enrollments.includes(:student)
+    @lessons = @course.lessons
   end
 
   # PATCH/PUT /submissions/1 or /submissions/1.json
   def update
+     @enrollments = @course.enrollments.includes(:student)
+    @lessons = @course.lessons
+
+    if @submission.update(submission_params)
+      redirect_to course_submission_path(@course, @submission), notice: "Submission was successfully updated."
+    else
+      render :edit
+    end
   end
 
   private
+
+    def set_course
+      @course = Course.find(params[:course_id])
+    end
+
+    def set_submission
+      @submission = @course.submissions.find(params[:id])
+    end
     # Only allow a list of trusted parameters through.
     def submission_params
       params.require(:submission).permit(:lesson_id, :enrollment_id, :mentor_id, :review_result, :reviewed_at)

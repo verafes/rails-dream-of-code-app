@@ -1,10 +1,19 @@
 <p style="color: green"><%= notice %></p>
 
-<h1>Trimesters#show</h1>
+<% content_for :title, "Trimesters" %>
+
+<h1>Trimester</h1>
 
 <p><strong>Term:</strong> <%= @trimester.term %></p>
 <p><strong>Year:</strong> <%= @trimester.year %></p>
 <p><strong>Start Date:</strong> <%= @trimester.start_date %></p>
 <p><strong>End Date:</strong> <%= @trimester.end_date %></p>
 
-<%= link_to "Back to all trimesters", trimesters_path %>
+<br>
+
+<div>
+  <%= link_to "Edit this trimester", edit_trimester_path(@trimester) %> |
+  <%= link_to "Back to all trimesters", trimesters_path %>
+
+  <%= button_to "Delete this trimester", @trimester, method: :delete, data: { confirm: "Are you sure?" } %>
+</div>

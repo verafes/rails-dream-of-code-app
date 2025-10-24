@@ -1,0 +1,34 @@
+<p style="color: green"><%= notice %></p>
+
+<% content_for :title, "Submissions for course" %>
+
+<h1>Submissions for <%= @course.title %></h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Student</th>
+      <th>Lesson</th>
+      <th>URL</th>
+      <th>Submitted At</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @submissions.each do |submission| %>
+      <tr>
+        <td><%= submission.enrollment.student.full_name %></td>
+        <td><%= submission.lesson.title %></td>
+        <td><%= submission.pull_request_url %></td>
+        <td><%= submission.created_at.to_date %></td>
+        <td>
+          <%= link_to "Show", course_submission_path(@course, submission) %> |
+          <%= link_to "Edit", edit_course_submission_path(@course, submission) %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<div>
+    <%= link_to "New Submission", new_course_submission_path(@course) %> | 
+    <%= link_to "Back to Course", course_path(@course) %>
+</div>

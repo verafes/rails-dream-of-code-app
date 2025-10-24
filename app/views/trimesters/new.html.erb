@@ -1,2 +1,11 @@
-<h1>Trimesters#new</h1>
-<p>Find me in app/views/trimesters/new.html.erb</p>
+<% content_for :title, "New trimester" %>
+
+<h1>New Trimester</h1>
+
+<%= render "form", trimester: @trimester %>
+
+<br>
+
+<div>
+  <%= link_to "Back", trimesters_path %>
+</div>

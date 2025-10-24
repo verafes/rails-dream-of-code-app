@@ -12,13 +12,19 @@
   <% end %>
 
   <div>
-    <%= form.label :coding_class_id, style: "display: block" %>
-    <%= form.text_field :coding_class_id %>
+    <%= form.label :coding_class_id,  {}, { class: 'form-text' } %>
+    <%= form.select :coding_class_id,
+                    options_from_collection_for_select(@coding_classes, :id, :title, course.coding_class_id),
+                    { prompt: 'Select Coding Class' },
+                    { class: 'form-control' } %>
   </div>
 
   <div>
-    <%= form.label :trimester_id, style: "display: block" %>
-    <%= form.text_field :trimester_id %>
+    <%= form.label :trimester_id, {}, { class: 'form-text' } %>
+    <%= form.select :trimester_id,
+                    options_from_collection_for_select(@trimesters, :id, :display_name, course.trimester_id),
+                    { prompt: 'Select Trimester' },
+                    { class: 'form-control' } %>
   </div>
 
   <div>

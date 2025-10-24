@@ -1,0 +1,9 @@
+<% content_for :title, "Editing Submission" %>
+
+<h1>Editing Submission</h1>
+
+<%= render "form", submission: @submission, course: @course %>
+
+<br>
+
+<%= link_to "Back to Submissions", course_submissions_path(@course) %>

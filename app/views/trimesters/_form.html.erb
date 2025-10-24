@@ -1,0 +1,41 @@
+<%= form_with(model: @trimester, local: true) do |form| %>
+  <% if @trimester.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(@trimester.errors.count, "error") %> prohibited this trimester from being saved:</h2>
+      <ul>
+        <% @trimester.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= form.label :term %>
+    <%= form.select :term, ['Spring', 'Summer', 'Fall'], { prompt: "Select term" }, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :year %>
+    <%= form.select :year, (2023..2050).to_a, { prompt: "Select year" }, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :start_date %>
+    <%= form.date_field :start_date, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :end_date %>
+    <%= form.date_field :end_date, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :application_deadline, "Application Deadline" %>
+    <%= form.date_field :application_deadline, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= form.submit %>
+  </div>
+<% end %>
